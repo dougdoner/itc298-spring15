@@ -6,6 +6,9 @@
 var request = require("request");
 var cheerio = require("cheerio");
 
+//chalk module for styling terminal output
+var chalk = require("chalk");
+
 //uses callback to return data
 var loadPage = function(url, callback) {
     //request function to fetch url
@@ -23,11 +26,11 @@ var returnData = function(err, data) {
     var births = 0;
     if (err)
     //logs the error onto the console
-        return console.log(err);
+        return console.log(chalk.red(err));
     //loads the data into the cheerio object, represented by the $
     var $ = cheerio.load(data);
     console.log();
-    console.log("###### BIRTHS ######");
+    console.log(chalk.blue("###### BIRTHS ######"));
     console.log();
     //finds all births for that day and logs them onto the console
     $("#Births").parent("h2").next("ul").find("li").each(function(i, elem) {
@@ -35,15 +38,15 @@ var returnData = function(err, data) {
         births++;
     });
     console.log();
-    console.log("###### DEATHS ######");
+    console.log(chalk.green("###### DEATHS ######"));
     console.log();
     //finds all deaths for that day and logs them onto the console
     $("#Deaths").parent("h2").next("ul").find("li").each(function(i, elem) {
         console.log($(this).text())
         deaths++;
     });
-    console.log("Number of births: ", births);
-    console.log("Number of deaths: ", deaths);
+    console.log(chalk.magenta("Number of births: ", births));
+    console.log(chalk.magenta("Number of deaths: ", deaths));
 };
 
 //assigns the functions to be exported
